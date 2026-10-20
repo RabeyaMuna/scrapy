@@ -46,10 +46,15 @@ sys.exit(mitmdump())
             ],
             stdout=PIPE,
         )
+        if self.proc.stdout is None:
+            raise RuntimeError("Process stdout is None")
         line = self.proc.stdout.readline().decode("utf-8")
-        host_port = re.search(
+        match = re.search(
             r"listening at (?:https?:\/\/)?([^\s.]+(?:\.\S+)*?:\d+)", line
-        ).group(1)
+        )
+        if match is None:
+            raise RuntimeError(f"Could not find listening address in output: {line}")
+        host_port = match.group(1)
         return f"http://{self.auth_user}:{self.auth_pass}@{host_port}"
 
     def stop(self):
