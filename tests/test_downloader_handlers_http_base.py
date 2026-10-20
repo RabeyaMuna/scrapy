@@ -629,7 +629,7 @@ class TestHttpProxyBase(ABC):
         request = Request(domain, meta={"proxy": http_proxy, "download_timeout": 0.2})
         with pytest.raises(error.TimeoutError) as exc_info:
             await download_request(download_handler, request)
-        assert domain in exc_info.value.osError
+        assert domain in str(exc_info.value)
 
     @deferred_f_from_coro_f
     async def test_download_with_proxy_without_http_scheme(

@@ -90,6 +90,7 @@ class TestProxyConnect:
 
     @inlineCallbacks
     def test_https_connect_tunnel(self):
+        os.environ["https_proxy"] = self.proxy
         crawler = get_crawler(SimpleSpider)
         with LogCapture() as log:
             yield crawler.crawl(self.mockserver.url("/status?n=200", is_secure=True))
@@ -97,7 +98,7 @@ class TestProxyConnect:
 
     @inlineCallbacks
     def test_https_tunnel_auth_error(self):
-        os.environ["https_proxy"] = _wrong_credentials(os.environ["https_proxy"])
+        os.environ["https_proxy"] = _wrong_credentials(self.proxy)
         crawler = get_crawler(SimpleSpider)
         with LogCapture() as log:
             yield crawler.crawl(self.mockserver.url("/status?n=200", is_secure=True))
@@ -107,6 +108,7 @@ class TestProxyConnect:
 
     @inlineCallbacks
     def test_https_tunnel_without_leak_proxy_authorization_header(self):
+        os.environ["https_proxy"] = self.proxy
         request = Request(self.mockserver.url("/echo", is_secure=True))
         crawler = get_crawler(SingleRequestSpider)
         with LogCapture() as log:

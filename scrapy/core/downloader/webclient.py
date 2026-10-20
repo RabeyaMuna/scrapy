@@ -80,7 +80,7 @@ class ScrapyHTTPPageGetter(HTTPClient):
             self.transport.stopProducing()
 
         self.factory.noPage(
-            defer.TimeoutError(
+            twisted.internet.error.TimeoutError(
                 f"Getting {self.factory.url} took longer "
                 f"than {self.factory.timeout} seconds."
             )
@@ -122,6 +122,8 @@ class ScrapyHTTPClientFactory(ClientFactory):
             self.netloc = proxy_parsed.netloc
             if self.port is None:
                 self.port = 443 if proxy_parsed.scheme == b"https" else 80
+            # For HTTPS proxy tunneling, the path should be the full URL
+            # For HTTP proxy, the path should be the full URL as well
             self.path = self.url
         else:
             parsed = urlparse_cached(request)
