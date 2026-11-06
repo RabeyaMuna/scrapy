@@ -7,7 +7,7 @@ concurrency:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -18,9 +18,11 @@ jobs:
         - python-version: '3.9'
           env:
             TOXENV: typing
+          runner: ubuntu-24.04
         - python-version: '3.9'
           env:
             TOXENV: typing-tests
+          runner: ubuntu-24.04
         - python-version: '3.13'  # Keep in sync with .readthedocs.yml
           env:
             TOXENV: docs
