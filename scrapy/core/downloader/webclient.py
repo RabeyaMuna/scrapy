@@ -10,6 +10,7 @@ from urllib.parse import urldefrag, urlparse, urlunparse
 from twisted.internet import defer
 from twisted.internet.protocol import ClientFactory
 from twisted.web.http import HTTPClient
+from twisted.internet._sslverify import _setAcceptableProtocols, verifyHostname
 
 from scrapy.exceptions import ScrapyDeprecationWarning
 from scrapy.http import Headers, Response
