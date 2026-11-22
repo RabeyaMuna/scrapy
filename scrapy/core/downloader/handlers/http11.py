@@ -370,8 +370,8 @@ class TunnelingAgent(Agent):
         pool: HTTPConnectionPool | None = None,
     ):
         super().__init__(reactor, contextFactory, connectTimeout, bindAddress, pool)
-        self._proxyConf: tuple[str, int, bytes | None] = proxyConf
-        self._contextFactory: IPolicyForHTTPS = contextFactory
+        self._proxyConf = proxyConf
+        self._contextFactory = contextFactory
 
     @staticmethod
     def _is_ipv6(host: str) -> bool:

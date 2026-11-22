@@ -381,7 +381,7 @@ class FTPFilesStore:
         return deferToThread(
             ftp_store_file,
             path=path,
-            file=buf,
+            file=buf.getvalue(),
             host=self.host,
             port=self.port,
             username=self.username,
